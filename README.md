@@ -20,5 +20,5 @@ To set up this Package for your own Robot, there is one possibility.
   ```
   (3.) If you don't use our joy_relay [1], you have to manipulate our code.
   ```cpp
-  int test = test;
+  //Missing
   ```
