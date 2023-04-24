@@ -18,7 +18,7 @@ To set up this Package for your own Robot, there is one possibility.
   cd ..
   catkin_make
   ```
-  (3.) If you don't use our joy_relay [1], you have to manipulate our code.
+	(4.) If you don't use our joy_relay [1], you have to manipulate our code.
   ```cpp
   //Missing
   ```
