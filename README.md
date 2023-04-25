@@ -29,9 +29,8 @@ To set up this Package for your own Robot, there is one possibility.
   ```cpp
   ros::Subscriber btnsub = nh.subscribe("/cjt/input", 1, buttonCallback);
   ```
-  
-4. Build the workspace.
+4. Build your catkin_workspace.
   ```bash
-  cd ..
+  cd build/
   catkin_make
   ```
