@@ -146,7 +146,7 @@ int main(int argc, char **argv)
   image_transport::Subscriber imsub = it.subscribe("/cjt/image_raw", 1, imageCallback, image_transport::TransportHints("compressed"));
   ros::Subscriber btnsub = nh.subscribe("/cjt/input", 1, buttonCallback);
   cv::namedWindow("RoboCupGermany - CJT-Gymnasium - Movement Detection");
-  ros::spin();
   cv::destroyWindow("RoboCupGermany - CJT-Gymnasium - Movement Detection");
+  ros::spin();
   return 0;
 }
