@@ -138,22 +138,14 @@ void imageCallback(const sensor_msgs::ImageConstPtr &msg)
   }
 }
 
-// Funktion, um die Einstellung für den Rahmen zu ändern
-/*void toggleRect(int state, void *userdata)
-{
-  drawRect = !drawRect;
-}*/
-
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "image_subscriber");
   ros::NodeHandle nh;
   image_transport::ImageTransport it(nh);
-  //image_transport::Subscriber imsub = it.subscribe("/cjt/thermalCamera", 1, imageCallback);
   image_transport::Subscriber imsub = it.subscribe("/cjt/image_raw", 1, imageCallback, image_transport::TransportHints("compressed"));
   ros::Subscriber btnsub = nh.subscribe("/cjt/input", 1, buttonCallback);
   cv::namedWindow("RoboCupGermany - CJT-Gymnasium - Movement Detection");
-  //cv::createTrackbar("Draw Rect", "RoboCupGermany - CJT-Gymnasium - Movement Detection", 0, 1, toggleRect);
   ros::spin();
   cv::destroyWindow("RoboCupGermany - CJT-Gymnasium - Movement Detection");
   return 0;
