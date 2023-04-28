@@ -100,11 +100,6 @@ void buttonCallback(const joy_relay::CJT& msg) {
   std::string action = msg.action;
   std::string device = msg.device;
 
-  
-
-  
-
-
   if(device.compare("camera") == 0)  {
     if(action.compare("movement_detection") == 0) {
       test = !test;
