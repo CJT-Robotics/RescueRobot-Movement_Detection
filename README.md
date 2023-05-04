@@ -31,7 +31,7 @@ To set up this Package for your own Robot, there is one possibility.
   ```
 4. Build your catkin_workspace.
   ```bash
-  cd build/
+  cd ..
   catkin_make
   ```
 ## Dokumentation
