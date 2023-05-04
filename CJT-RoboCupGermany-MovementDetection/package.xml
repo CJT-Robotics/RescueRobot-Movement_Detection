@@ -2,7 +2,7 @@
 <package format="2">
   <name>CJT-RoboCupGermany-MovementDetection</name>
   <version>1.0.0</version>
-  <description>This program allows you to subscribe to a webcam stream and detect motion. The motion is then displayed on a graphical user interface (GUI) with colored bounding boxes.</description>
+  <description>This package allows you to subscribe to a webcam stream and detect motion. The motion is then displayed on a graphical user interface (GUI) with colored bounding boxes.</description>
 
 
   <maintainer email="contact@cjtrobotics.de">eMail</maintainer>
