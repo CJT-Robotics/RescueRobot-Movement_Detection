@@ -60,3 +60,36 @@ To set up this Package for your own Robot, there is one possibility.
   ros::spin();
   ```
   This is just for the subscriber and the threads.
+  ### The imageCallback method:
+  ```cpp
+  char c = cv::waitKey(30);
+  ```
+  This function saves the user input (keypress). The time is formatted by milliseconds.
+  
+  ```cpp
+  if(c == 'd') {
+    test = !test;
+  }
+  ```
+  Here it will be checked if the user input is the key 'd'. If its true the variable 'test' will be changed to the opposit position (true <==> false). So, this is the way how to change between seeing the movement detection or not. Also, you can switch the key there.
+  
+  ```cpp
+  try {
+  //Space for code
+  } catch {
+  //Error message
+  }
+  ```
+  In this try-catch-statement there are several things to be done.
+  
+  ```cpp
+  frame = cv_bridge::toCvShare(msg, "bgr8")->image;
+  ```
+  There the incoming picture/video will be converted to cv::Mat. This is for, to manipulate the image and create the movement detection system.
+  
+  ```cpp
+  if (test == true) {
+      detectMotion(frame);
+  }
+  ```
+  Here, the check is running if the user selected to watch the movement detection or the plain image from the webcam.
