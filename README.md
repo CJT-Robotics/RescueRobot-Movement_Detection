@@ -93,3 +93,8 @@ To set up this Package for your own Robot, there is one possibility.
   }
   ```
   Here, the check is running if the user selected to watch the movement detection or the plain image from the webcam.
+
+  ```cpp
+  cv::imshow("RoboCupGermany - CJT-Gymnasium - Movement Detection", frame);
+  ```
+  This funtion is to paste the image into the created window.
