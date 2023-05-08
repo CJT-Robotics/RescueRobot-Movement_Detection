@@ -6,21 +6,24 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <joy_relay/CJT.h>
 
+using namespace cv;
+using namespace std;
+
 // globale Variablen
-cv::Mat frame;
-cv::Mat grayFrame;
-cv::Mat prevFrame;
-cv::Mat diffFrame;
-cv::Mat threshFrame;
+Mat frame;
+Mat grayFrame;
+Mat prevFrame;
+Mat diffFrame;
+Mat threshFrame;
 bool drawRect = false;
 bool test = false;
 
 
 // Funktion, um bewegte Objekte zu erkennen und einen Rahmen um sie zu zeichnen
-void detectMotion(cv::Mat currentFrame)
+void detectMotion(Mat currentFrame)
 {
-  cv::cvtColor(currentFrame, grayFrame, cv::COLOR_BGR2GRAY);
-  cv::GaussianBlur(grayFrame, grayFrame, cv::Size(21, 21), 0);
+  cvtColor(currentFrame, grayFrame, COLOR_BGR2GRAY);
+  GaussianBlur(grayFrame, grayFrame, Size(21, 21), 0);
 
   // Hintergrund berechnen
   if (prevFrame.empty())
@@ -28,25 +31,25 @@ void detectMotion(cv::Mat currentFrame)
     grayFrame.copyTo(prevFrame);
   }
 
-  cv::absdiff(prevFrame, grayFrame, diffFrame);
-  cv::threshold(diffFrame, threshFrame, 25, 255, cv::THRESH_BINARY);
+  absdiff(prevFrame, grayFrame, diffFrame);
+  threshold(diffFrame, threshFrame, 25, 255, THRESH_BINARY);
 
   // Rahmen zeichnen
-  std::vector<std::vector<cv::Point>> contours;
-  std::vector<cv::Vec4i> hierarchy;
-  cv::findContours(threshFrame, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+  vector<vector<Point>> contours;
+  vector<Vec4i> hierarchy;
+  findContours(threshFrame, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
   // Polygondarstellung und rechteckige Begrenzungsrahmen erzeugen
-  std::vector<std::vector<cv::Point>> contoursPoly(contours.size());
-  std::vector<cv::Rect> boundRect(contours.size());
+  vector<vector<Point>> contoursPoly(contours.size());
+  vector<Rect> boundRect(contours.size());
 
   for (size_t i = 0; i < contours.size(); i++)
   {
-    if (cv::contourArea(contours[i]) > 10)
+    if (contourArea(contours[i]) > 10)
     {
-      cv::Rect rect = cv::boundingRect(contours[i]);
+      Rect rect = boundingRect(contours[i]);
       //if (drawRect)
-        //cv::rectangle(currentFrame, rect, cv::Scalar(0, 0, 255), 2);
+        //rectangle(currentFrame, rect, Scalar(0, 0, 255), 2);
     }
   }
 
@@ -54,12 +57,12 @@ void detectMotion(cv::Mat currentFrame)
 
   for (size_t i = 0; i < contours.size(); i++)
   {
-    cv::approxPolyDP(cv::Mat(contours[i]), contoursPoly[i], 3, true);
-    boundRect[i] = cv::boundingRect(cv::Mat(contoursPoly[i]));
+    approxPolyDP(Mat(contours[i]), contoursPoly[i], 3, true);
+    boundRect[i] = boundingRect(Mat(contoursPoly[i]));
   }
 
-  std::vector<std::vector<cv::Point>> mergedContours;
-  std::vector<cv::Rect> mergedRects;
+  vector<vector<Point>> mergedContours;
+  vector<Rect> mergedRects;
   int mergeThreshold = 250;
 
   for (size_t i = 0; i < contours.size(); i++)
@@ -89,16 +92,16 @@ void detectMotion(cv::Mat currentFrame)
   // Rahmen zeichnen
   for (size_t i = 0; i < mergedRects.size(); i++)
   {
-    if (cv::contourArea(mergedContours[i]) > 10)
+    if (contourArea(mergedContours[i]) > 10)
     {
-      cv::rectangle(currentFrame, mergedRects[i], cv::Scalar(0, 0, 255), 2);
+      rectangle(currentFrame, mergedRects[i], Scalar(0, 0, 255), 2);
     }
   }
 }
 
 void buttonCallback(const joy_relay::CJT& msg) {
-  std::string action = msg.action;
-  std::string device = msg.device;
+  string action = msg.action;
+  string device = msg.device;
 
   if(device.compare("camera") == 0)  {
     if(action.compare("movement_detection") == 0) {
@@ -110,7 +113,7 @@ void buttonCallback(const joy_relay::CJT& msg) {
 // Callback-Funktion für den Empfang von Bildern
 void imageCallback(const sensor_msgs::ImageConstPtr &msg)
 {
-  char c = cv::waitKey(30);
+  char c = waitKey(30);
 
   if(c == 'd') {
     test = !test;
@@ -124,8 +127,8 @@ void imageCallback(const sensor_msgs::ImageConstPtr &msg)
       detectMotion(frame);
     }
 
-    cv::imshow("RoboCupGermany - CJT-Gymnasium - Movement Detection", frame);
-    cv::waitKey(1);
+    imshow("RoboCupGermany - CJT-Gymnasium - Movement Detection", frame);
+    waitKey(1);
   }
   catch (cv_bridge::Exception &e)
   {
@@ -140,8 +143,8 @@ int main(int argc, char **argv)
   image_transport::ImageTransport it(nh);
   image_transport::Subscriber imsub = it.subscribe("/cjt/image_raw", 1, imageCallback, image_transport::TransportHints("compressed"));
   ros::Subscriber btnsub = nh.subscribe("/cjt/input", 1, buttonCallback);
-  cv::namedWindow("RoboCupGermany - CJT-Gymnasium - Movement Detection");
-  cv::destroyWindow("RoboCupGermany - CJT-Gymnasium - Movement Detection");
+  namedWindow("RoboCupGermany - CJT-Gymnasium - Movement Detection");
+  destroyWindow("RoboCupGermany - CJT-Gymnasium - Movement Detection");
   ros::spin();
   return 0;
 }
