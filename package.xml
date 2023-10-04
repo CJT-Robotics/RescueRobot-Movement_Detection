@@ -4,9 +4,7 @@
   <version>1.0.0</version>
   <description>This package allows you to subscribe to a webcam stream and detect motion. The motion is then displayed on a graphical user interface (GUI) with colored bounding boxes.</description>
 
-
   <maintainer email="contact@cjtrobotics.de">eMail</maintainer>
-
 
   <license>
   
@@ -36,7 +34,6 @@
   If you have any questions about this write an eMail to contact@cjtrobotics.de
 
   </license>
-
 
   <url type="website">https://www.cjtrobotics.de</url>
 
